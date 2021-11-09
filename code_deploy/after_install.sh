@@ -1,1 +1,1 @@
-docker build -t tutorial:latest .
+docker build -f /home/ubuntu/app/Dockerfile . -t tutorial:latest
