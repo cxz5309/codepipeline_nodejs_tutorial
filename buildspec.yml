@@ -9,13 +9,13 @@ phases:
   install:
     commands:
       - echo Insatlling NPM Packages and wget Enviorment File
-      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
-      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+ #     - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+ #     - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   # 빌드 전에 CodeBuild가 실행하는 명령을 나타냅니다. 예를 들어, Amazon ECR에 로그인하기 위해 이 단계를 사용할 수 있습니다. 또는 npm 종속성을 설치할 수도 있습니다.
   build:
     commands:
       - echo Build started on `date`
-      - docker build -t helloworld .
+ #     - docker build -t helloworld .
   # 빌드 후에 CodeBuild가 실행하는 명령을 나타냅니다(있는 경우). 예를 들어, Maven을 사용하여 빌드 결과물을 JAR 또는 WAR 파일에 패키지할 수 있으며, Amazon ECR에 Docker 이미지를 푸시할 수도 있습니다.
   post_build:
     commands:
