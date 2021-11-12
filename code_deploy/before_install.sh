@@ -10,6 +10,9 @@ nvm install node
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8080
 
+if pgrep node; 
+then pkill node; 
+fi
 
 # EC2 서버 작업 폴더 확인
 DIR="/home/ubuntu/app"
