@@ -3,5 +3,4 @@
 
 echo "Stopping any existing node servers"
 cd /home/ubuntu/app
-npm uninstall -g pm2
 pkill node
