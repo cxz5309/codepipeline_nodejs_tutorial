@@ -1,5 +1,4 @@
-pm2 stop all  
-pm2 kill
+npm uninstall -g pm2
 
 if pgrep node; 
 then pkill node; 
