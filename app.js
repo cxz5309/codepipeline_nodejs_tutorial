@@ -1,41 +1,70 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require("express");
+const cors = require("cors");
+const morgan = require('morgan');
+const hpp = require('hpp');
+const helmet = require('helmet');
+const env = require('./env')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const configurePassport = require('./passport')
+const { sequelize } = require("./models");
+//routes imports
+const indexRouter = require("./routes/index");
+const { errorHandler, error404, asyncErrorHandeler } = require('./middlewares/errorMiddleware');
 
-var app = express();
+//crons imports
+const userCron = require("./crons/user");
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//서버리슨 분리로 주석처리
+// const port = env.EXPRESS_PORT;
+const app = express()
 
-app.use(logger('dev'));
+if (env.NODE_ENV === 'production') {
+  app.use(
+    helmet({
+      frameguard: false,
+      contentSecurityPolicy: false,
+      hsts: false,
+    })
+  );
+  app.use(morgan('combined'));
+  app.use(hpp());
+} else {
+  app.use(morgan('dev'))
+}
+
+sequelize
+  .sync({ force: true }) //데이터 구조 변경하고 싶을 때, true
+  .then(() => {
+    console.log('------ SQL Restructure Complete ------');
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+if (env.NODE_ENV === 'production') {
+  console.log('배포 환경입니다');
+}
+
+configurePassport(app);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+app.use(express.static('public'));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//routes
+// app.get('*', asyncErrorHandeler) 이것의 작동 방식을 모르겠습니다
+app.use('/api', indexRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+//error handling
+app.use(error404);
+app.use(errorHandler)
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+//서버리슨 분리로 주석처리
+// app.listen(port, () => {
+//   console.log(`${port} 포트에서 서버가 정상적으로 가동되었습니다.`);
+// });
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+userCron.destroyUser();
 
 module.exports = app;

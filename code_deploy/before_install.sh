@@ -5,11 +5,6 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 . ~/.nvm/nvm.sh
 nvm install node
 
-
-# 80, 443 포트로 들어오는 사용자들을 8080 포트로 우회하기
-sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
-sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8080
-
 if pgrep node; 
 then pkill node; 
 fi
