@@ -5,7 +5,7 @@ files:
     destination: /home/ubuntu/app
     file_exists_behavior: OVERWRITE
 hooks:
-  #ApplicationStop:
+  ApplicationStop:
     - location: /code_deploy/application_stop.sh
       timeout: 500
   BeforeInstall:
