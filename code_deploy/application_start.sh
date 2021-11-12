@@ -28,4 +28,5 @@ echo "pm2 installed"
 # node app.js 만 입력시 foreground로 실행이 됌
 # node dist/app.js > app.out.log 2> app.err.log < /dev/null & 
 pm2 kill
-pm2 start npm -- start
+pm2 start node ./bin/www
+pm2 save
