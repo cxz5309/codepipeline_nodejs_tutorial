@@ -30,4 +30,3 @@ echo "pm2 installed"
 pm2 stop all  
 pm2 kill
 pm2 start npm -- start
-pm2 save
