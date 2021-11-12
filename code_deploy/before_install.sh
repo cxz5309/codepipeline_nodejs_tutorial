@@ -5,10 +5,6 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 . ~/.nvm/nvm.sh
 nvm install node
 
-if pgrep node; 
-then pkill node; 
-fi
-
 # EC2 서버 작업 폴더 확인
 DIR="/home/ubuntu/app"
 if [ -d "$DIR" ]; then
