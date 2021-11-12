@@ -3,7 +3,7 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/app
-
+    overwrite: purge
 hooks:
   ApplicationStop:
     - location: /code_deploy/application_stop.sh
