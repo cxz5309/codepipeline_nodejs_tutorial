@@ -18,7 +18,6 @@ phases:
     commands:
       - npm install
       - echo npm installed
-      - export NODE_ENV=test:
     commands:
       - echo Build started on `date`
  #     - docker build -t helloworld .
